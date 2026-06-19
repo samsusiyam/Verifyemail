@@ -17,20 +17,16 @@ class outputemail
         $on1 = $Userauthentication == "on";
         $on2 = $Deletedatabase == "on";
 
-        try {
-            Capsule::connection()->transaction(
-                function ($connectionManager) {
-                    if (isset($_POST['Emailauthentication'])) {
-                        $connectionManager->table('mod_Verifyemail')->update([
-                            'Emailauthentication' => $_POST['Emailauthentication'],
-                            'Userauthentication' => $_POST['Userauthentication'],
-                            'Deletedatabase' => $_POST['Deletedatabase'],
-                        ]);
-                    }
-                }
-            );
-        } catch (\Exception $e) {
-            echo "An error has occurred: {$e->getMessage()}";
+        if (isset($_POST['submit'])) {
+            try {
+                Capsule::table('mod_Verifyemail')->update([
+                    'Emailauthentication' => $_POST['Emailauthentication'],
+                    'Userauthentication' => $_POST['Userauthentication'],
+                    'Deletedatabase' => $_POST['Deletedatabase'],
+                ]);
+            } catch (\Exception $e) {
+                echo "An error has occurred: {$e->getMessage()}";
+            }
         }
 
         $toggle1 = $on ? 'checked' : '';
@@ -121,7 +117,7 @@ class outputemail
                 </div>
 
                 <div style="display:flex;flex-direction:column;gap:8px;">
-                    <label style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border:1px solid #e5e7eb;border-radius:10px;cursor:pointer;gap:12px;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border:1px solid #e5e7eb;border-radius:10px;gap:12px;">
                         <div style="display:flex;align-items:center;gap:12px;">
                             <span style="width:36px;height:36px;border-radius:8px;background:#eef2ff;color:#4f46e5;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0;">@</span>
                             <div>
@@ -129,14 +125,15 @@ class outputemail
                                 <div style="font-size:12px;color:#6b7280;margin-top:1px;">{$LANG['setting']['dec-confirmemail']}</div>
                             </div>
                         </div>
-                        <label style="position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0;cursor:pointer;">
-                            <input type="checkbox" name="Emailauthentication" id="Emailauthentication" {$toggle1} style="opacity:0;width:0;height:0;">
-                            <span style="position:absolute;top:0;left:0;right:0;bottom:0;background:{$bg1};border-radius:22px;transition:.3s;"></span>
-                            <span style="position:absolute;content:'';height:18px;width:18px;left:2px;bottom:2px;background:#fff;border-radius:50%;transition:.3s;transform:{$tx1};box-shadow:0 1px 3px rgba(0,0,0,.15);"></span>
-                        </label>
-                    </label>
+                        <div onclick="var c=this.querySelector('input');c.checked=!c.checked;c.dispatchEvent(new Event('change'))" style="position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0;cursor:pointer;">
+                            <input type="hidden" name="Emailauthentication" value="off">
+                            <input type="checkbox" name="Emailauthentication" id="Emailauthentication" value="on" {$toggle1} style="opacity:0;width:0;height:0;position:absolute;">
+                            <span style="position:absolute;top:0;left:0;right:0;bottom:0;background:{$bg1};border-radius:22px;transition:.3s;pointer-events:none;"></span>
+                            <span style="position:absolute;content:'';height:18px;width:18px;left:2px;bottom:2px;background:#fff;border-radius:50%;transition:.3s;transform:{$tx1};box-shadow:0 1px 3px rgba(0,0,0,.15);pointer-events:none;"></span>
+                        </div>
+                    </div>
 
-                    <label style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border:1px solid #e5e7eb;border-radius:10px;cursor:pointer;gap:12px;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border:1px solid #e5e7eb;border-radius:10px;gap:12px;">
                         <div style="display:flex;align-items:center;gap:12px;">
                             <span style="width:36px;height:36px;border-radius:8px;background:#f5f3ff;color:#7c3aed;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0;">!</span>
                             <div>
@@ -144,14 +141,15 @@ class outputemail
                                 <div style="font-size:12px;color:#6b7280;margin-top:1px;">{$LANG['setting']['dec-Userauthentication']}</div>
                             </div>
                         </div>
-                        <label style="position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0;cursor:pointer;">
-                            <input type="checkbox" name="Userauthentication" id="Userauthentication" {$toggle2} style="opacity:0;width:0;height:0;">
-                            <span style="position:absolute;top:0;left:0;right:0;bottom:0;background:{$bg2};border-radius:22px;transition:.3s;"></span>
-                            <span style="position:absolute;content:'';height:18px;width:18px;left:2px;bottom:2px;background:#fff;border-radius:50%;transition:.3s;transform:{$tx2};box-shadow:0 1px 3px rgba(0,0,0,.15);"></span>
-                        </label>
-                    </label>
+                        <div onclick="var c=this.querySelector('input[type=checkbox]');c.checked=!c.checked;c.dispatchEvent(new Event('change'))" style="position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0;cursor:pointer;">
+                            <input type="hidden" name="Userauthentication" value="off">
+                            <input type="checkbox" name="Userauthentication" id="Userauthentication" value="on" {$toggle2} style="opacity:0;width:0;height:0;position:absolute;">
+                            <span style="position:absolute;top:0;left:0;right:0;bottom:0;background:{$bg2};border-radius:22px;transition:.3s;pointer-events:none;"></span>
+                            <span style="position:absolute;content:'';height:18px;width:18px;left:2px;bottom:2px;background:#fff;border-radius:50%;transition:.3s;transform:{$tx2};box-shadow:0 1px 3px rgba(0,0,0,.15);pointer-events:none;"></span>
+                        </div>
+                    </div>
 
-                    <label style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border:1px solid #e5e7eb;border-radius:10px;cursor:pointer;gap:12px;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border:1px solid #e5e7eb;border-radius:10px;gap:12px;">
                         <div style="display:flex;align-items:center;gap:12px;">
                             <span style="width:36px;height:36px;border-radius:8px;background:#fff1f2;color:#e11d48;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0;">&#10005;</span>
                             <div>
@@ -159,12 +157,13 @@ class outputemail
                                 <div style="font-size:12px;color:#6b7280;margin-top:1px;">{$LANG['setting']['dec-Deletedatabase']}</div>
                             </div>
                         </div>
-                        <label style="position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0;cursor:pointer;">
-                            <input type="checkbox" name="Deletedatabase" id="Deletedatabase" {$toggle3} style="opacity:0;width:0;height:0;">
-                            <span style="position:absolute;top:0;left:0;right:0;bottom:0;background:{$bg3};border-radius:22px;transition:.3s;"></span>
-                            <span style="position:absolute;content:'';height:18px;width:18px;left:2px;bottom:2px;background:#fff;border-radius:50%;transition:.3s;transform:{$tx3};box-shadow:0 1px 3px rgba(0,0,0,.15);"></span>
-                        </label>
-                    </label>
+                        <div onclick="var c=this.querySelector('input[type=checkbox]');c.checked=!c.checked;c.dispatchEvent(new Event('change'))" style="position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0;cursor:pointer;">
+                            <input type="hidden" name="Deletedatabase" value="off">
+                            <input type="checkbox" name="Deletedatabase" id="Deletedatabase" value="on" {$toggle3} style="opacity:0;width:0;height:0;position:absolute;">
+                            <span style="position:absolute;top:0;left:0;right:0;bottom:0;background:{$bg3};border-radius:22px;transition:.3s;pointer-events:none;"></span>
+                            <span style="position:absolute;content:'';height:18px;width:18px;left:2px;bottom:2px;background:#fff;border-radius:50%;transition:.3s;transform:{$tx3};box-shadow:0 1px 3px rgba(0,0,0,.15);pointer-events:none;"></span>
+                        </div>
+                    </div>
                 </div>
 
                 <div style="border-top:1px solid #f3f4f6;margin-top:18px;padding-top:16px;display:flex;justify-content:flex-end;">
