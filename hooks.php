@@ -13,7 +13,7 @@ $Emailauthentication=Capsule::table('mod_Verifyemail')->where('id', '1')->value(
          if (!is_null($client) && $client) {
             if ($client->isEmailAddressVerified()==false)
             {
-                return array("قبل از تکمیل  سفارش، ابتدا باید آدرس ایمیل خود را تأیید کنید");
+                return array("Please verify your email address before completing your order.");
             }
          }
     }
@@ -27,7 +27,7 @@ add_hook("ClientAreaPage", 1, function($vars){
        if ($client->isEmailAddressVerified()==false)
        {
          $namepage = $vars['pagetitle'];
-         if($namepage!="احراز هویت ایمیل"){
+         if($namepage!="Email Verification"){
              header("Location: ./index.php?m=Verifyemail");
          }
     }

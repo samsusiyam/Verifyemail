@@ -38,7 +38,7 @@ class outputclient
 
             echo "Fixed {$updatedemailtblclients} misspelled last names.";
         } catch (\Exception $e) {
-            echo "بروزرسانی ایمیل با خطا مواجه شد";
+            echo "Failed to update email address. Please try again.";
         }
         try {
             $updatedemailtblusers = Capsule::table('tblusers')
@@ -52,7 +52,7 @@ class outputclient
 
             echo "Fixed {$updatedemailtblusers} misspelled last names.";
         } catch (\Exception $e) {
-            echo "بروزرسانی ایمیل با خطا مواجه شد";
+            echo "Failed to update email address. Please try again.";
         } }
 
 if (isset($_SESSION['uid'])) {
@@ -60,7 +60,7 @@ if (isset($_SESSION['uid'])) {
 }
 
         return array(
-            'pagetitle' => 'احراز هویت ایمیل',
+            'pagetitle' => 'Email Verification',
             'templatefile' => 'Emailconfirmation',
             'requirelogin' => false,
             'vars' => array(

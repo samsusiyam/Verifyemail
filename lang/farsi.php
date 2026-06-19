@@ -1,45 +1,36 @@
 <?php
 
-
 #menu
 
+$_ADDONLANG['menu']['setting-email-active'] = "Settings";
+$_ADDONLANG['menu']['aboutanicoweb'] = "About HosT NIbo";
 
-$_ADDONLANG['menu']['setting-email-active'] = "تنظیمات";
-$_ADDONLANG['menu']['aboutanicoweb'] = "درباره آنیکو وب";
+#page about
+
+$_ADDONLANG['about']["Description"] = "HosT NIbo provides WHMCS modules, templates, and plugins.
+
+The Email Verification module forces users to verify their email address before accessing services. It offers two protection modes: blocking orders and restricting page access.
+
+If you need assistance, contact our support team via ticket, phone, or Telegram.";
 
 
 #sidebar
 
-
-#page about anico web
-
-
-$_ADDONLANG['about']["Description"] = "مجموعه آنیکو وب  در تاریخ2021/08/06 افتتاح گردیده است.
- مجموعه آنیکو خدمات همچون فارسی سازی قالب و افزونه های وردپرس ؛ طراحی و فروش ماژول ها و قالب های whmcs  را انجام می دهد.
-
-با استفاده از افزونه احراز هویت ایمیل میتوانید کاربران تان را وارد به تایید ایمیل کنید.این افزونه دارای دو حالت جلوگیری از سفارش و قفل صفحات می باشد.
-
-در صورتی که مشکلی داشتید می توانید با پشتیبانی از طریق راه های تیکت ، تماس ، پشتیبانی تلگرام با ما در ارتباط باشید.";
-
-
-#sidbar
-
-
-$_ADDONLANG['sidebar']["Other_link"] ="لینک سایر افزونه ها";
-$_ADDONLANG['sidebar']["Support"] ="پشتیبانی آنیکو وب";
-$_ADDONLANG['sidebar']["Vieproducts"] ="مشاهده محصولات آنیکو وب";
+$_ADDONLANG['sidebar']["Other_link"] ="Other Plugin Links";
+$_ADDONLANG['sidebar']["Support"] ="HosT NIbo Support";
+$_ADDONLANG['sidebar']["Vieproducts"] ="View HosT NIbo Products";
 
 
 # page setting
 
-$_ADDONLANG['Warning']['go-to-configgeneral'] = "تنظیمات عمومی";
-$_ADDONLANG['Warning']['dec-configgeneral'] = "قبل از فعالسازی به صفحه تنظیمات عمومی  تب امنیت رفته و گزینه تأیید ایمیل را فعال کنید";
+$_ADDONLANG['Warning']['go-to-configgeneral'] = "General Settings";
+$_ADDONLANG['Warning']['dec-configgeneral'] = "Before activation, go to General Settings > Security tab and enable the email verification option";
 
 
-$_ADDONLANG['setting']['Emailconfirmation'] = "تایید  اجباری ایمیل در سفارش ";
-$_ADDONLANG['setting']['dec-confirmemail'] = "در صورت فعال بودن این گزینه قبل از سفارش کاربر باید ایمیل خود را تایید کند";
-$_ADDONLANG['setting']['Userauthentication'] = "محدود کردن صفحات";
-$_ADDONLANG['setting']['dec-Userauthentication'] = "در صورت فعال بودن این گزینه اگر کاربر ایمیل خود را تایید نکرده باشد به صفحه احراز هویت هدایت می شود";
-$_ADDONLANG['setting']["Deletedatabase"]= "حذف پایگاه داده";
-$_ADDONLANG['setting']['dec-Deletedatabase'] = "در صورت فعال بودن این گزینه پس از غیرفعال کردن افزونه جدول پایگاه داده مربوط به این افزونه حذف خواهد شد";
-$_ADDONLANG['setting']["savechanges"]= "ذخیره تغییرات";
+$_ADDONLANG['setting']['Emailconfirmation'] = "Require Email Confirmation";
+$_ADDONLANG['setting']['dec-confirmemail'] = "When enabled, users must verify their email before placing an order";
+$_ADDONLANG['setting']['Userauthentication'] = "Restrict Page Access";
+$_ADDONLANG['setting']['dec-Userauthentication'] = "When enabled, unverified users will be redirected to the verification page";
+$_ADDONLANG['setting']["Deletedatabase"]= "Delete Database on Deactivation";
+$_ADDONLANG['setting']['dec-Deletedatabase'] = "When enabled, the plugin's database table will be removed upon deactivation";
+$_ADDONLANG['setting']["savechanges"]= "Save Changes";

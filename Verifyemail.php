@@ -6,11 +6,11 @@ use WHMCS\Module\Addon\Verifyemail\Client\Verifyemailclient;
 
 
 /**
- * Verify_email_anicoweb
+ * Verifyemail
  *
- * @link https://anicoweb.ir
+ * @link https://hostnibo.com
  *
- * @copyright Copyright (c) AnicoWeb
+ * @copyright Copyright (c) HosT NIbo
  */
 
 if (!defined("WHMCS")) {
@@ -19,9 +19,9 @@ if (!defined("WHMCS")) {
 function Verifyemail_config()
 {
     return [
-        'name' => 'Email verification',
-        'description' => 'Use this plugin to force the user to confirm the email in the user panel',
-        'author' => "<a href='https://anicoweb.ir' target='_blank'>Anico Web</a>",
+        'name' => 'Email Verification',
+        'description' => 'Use this plugin to force users to verify their email address',
+        'author' => "<a href='https://hostnibo.com' target='_blank'>HosT NIbo</a>",
         'language' => 'en',
         'version' => '1.0',
     ];
@@ -96,7 +96,7 @@ function Verifyemail_sidebar($vars)
     <div class="sidebar-header">{$LANG['sidebar']["Other_link"]}</div>
 <ul class="menu">
 <li><a href="#">{$LANG['sidebar']["Support"]}</a></li>
-<li><a herf="#">{$LANG['sidebar']["Vieproducts"]}</a></li>
+<li><a href="#">{$LANG['sidebar']["Vieproducts"]}</a></li>
 </ul>;
 EOF;
 }
