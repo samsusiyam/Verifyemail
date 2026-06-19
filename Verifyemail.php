@@ -10,7 +10,7 @@ use WHMCS\Module\Addon\Verifyemail\Client\Verifyemailclient;
  *
  * @link https://hostnibo.com
  *
- * @copyright Copyright (c) HosT NIbo
+ * @copyright Copyright (c) Host Nibo
  */
 
 if (!defined("WHMCS")) {
@@ -21,7 +21,7 @@ function Verifyemail_config()
     return [
         'name' => 'Email Verification',
         'description' => 'Use this plugin to force users to verify their email address',
-        'author' => "<a href='https://hostnibo.com' target='_blank'>HosT NIbo</a>",
+        'author' => "<a href='https://hostnibo.com' target='_blank'>Host Nibo</a>",
         'language' => 'en',
         'version' => '1.0',
     ];

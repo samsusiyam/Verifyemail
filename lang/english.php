@@ -3,11 +3,11 @@
 #menu
 
 $_ADDONLANG['menu']['setting-email-active'] = "Settings";
-$_ADDONLANG['menu']['aboutanicoweb'] = "About HosT NIbo";
+$_ADDONLANG['menu']['aboutanicoweb'] = "About Host Nibo";
 
 #page about
 
-$_ADDONLANG['about']["Description"] = "HosT NIbo provides WHMCS modules, templates, and plugins.
+$_ADDONLANG['about']["Description"] = "Host Nibo provides WHMCS modules, templates, and plugins.
 
 The Email Verification module forces users to verify their email address before accessing services. It offers two protection modes: blocking orders and restricting page access.
 
@@ -17,8 +17,8 @@ If you need assistance, contact our support team via ticket, phone, or Telegram.
 #sidebar
 
 $_ADDONLANG['sidebar']["Other_link"] ="Other Plugin Links";
-$_ADDONLANG['sidebar']["Support"] ="HosT NIbo Support";
-$_ADDONLANG['sidebar']["Vieproducts"] ="View HosT NIbo Products";
+$_ADDONLANG['sidebar']["Support"] ="Host Nibo Support";
+$_ADDONLANG['sidebar']["Vieproducts"] ="View Host Nibo Products";
 
 
 #page setting
