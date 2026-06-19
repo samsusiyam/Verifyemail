@@ -3,23 +3,23 @@
 {if $email_authentication_status}
 
 <div class="Userauthentication">
-    <h1 class="title-pages">احراز هویت ایمیل</h1>
-    <p class="text-dec">برای دسترسی به تمامی خدمات وبسایت ایمیل خود را تایید کنید</p>
+    <h1 class="title-pages">Email Verification</h1>
+    <p class="text-dec">Please verify your email to access all website services</p>
         <img class="emailconfimedimg" src="./modules/addons/Verifyemail/templates/img/verify.svg"
-                alt="confriming">
-        <p class="note">توجه : برای ویرایش ایمیل در فیلد زیر ایمیل جدید خود را وارد کرده و دکمه ویرایش ایمیل را بزنید</p>
+                alt="confirming">
+        <p class="note">Note: To update your email, enter your new email below and click the Update Email button</p>
         <form method="post" class="formedit" action="">
             <div>
-                <label for="emailedit">ایمیل حساب</label>
+                <label for="emailedit">Account Email</label>
                 <input required value="{$emailclient}" type="email" name="emailedit" id="emailedit">
             </div>
             <div>
                 <button class="btnemailconfrim btn-lg btn-resend-verify-email"
                     data-email-sent="{$LANG.action.Emailsent}" data-error-msg=" {$LANG.action.Emailerror}"
                     data-uri="{routePath('user-email-verification-resend')}">
-                    ارسال مجدد ایمیل
+                    Resend Email
                 </button>
-                <button type="submit" class="editemail btn-lg">ویرایش ایمیل</button>
+                <button type="submit" class="editemail btn-lg">Update Email</button>
         </form>
 </div>
 </div>
@@ -27,9 +27,9 @@
 <div class="Userauthentication">
 <img style="margin: 0;" class="emailconfimedimg" src="./modules/addons/Verifyemail/templates/img/Confrimed.svg"
                 alt="confirmed">
-    <h1 style="color: green;" class="title-pages">ایمیل تایید شده !</h1>
-    <p class="text-dec">ایمیل حساب کاربری شما تایید شده است</p>
-    <a class="btndash-confrimed" href="{$WEB_ROOT}/clientarea.php">داشبورد</a>
+    <h1 style="color: green;" class="title-pages">Email Verified!</h1>
+    <p class="text-dec">Your account email has been verified successfully</p>
+    <a class="btndash-confrimed" href="{$WEB_ROOT}/clientarea.php">Dashboard</a>
         </form>
 </div>
 </div>
