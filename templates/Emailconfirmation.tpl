@@ -1,55 +1,131 @@
 {if $loggedin}
 <link rel="stylesheet" href="./modules/addons/Verifyemail/templates/css/style.css">
-{if $email_authentication_status}
 
-<section class="verify-card">
-    <div class="verify-card-inner">
-        <div class="verify-badge">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        </div>
-        <h1 class="verify-title">Email Verification</h1>
-        <p class="verify-subtitle">Please verify your email to access all website services</p>
-        <img class="verify-illustration" src="./modules/addons/Verifyemail/templates/img/verify.svg" alt="verify email">
-        <div class="verify-note">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            <span>To update your email, enter your new email below and click the Update Email button</span>
-        </div>
-        <form method="post" class="verify-form" action="">
-            <div class="form-group">
-                <label for="emailedit">Account Email</label>
-                <input required value="{$emailclient}" type="email" name="emailedit" id="emailedit" placeholder="Enter your email address">
-            </div>
-            <div class="form-actions">
-                <button type="submit" class="btn btn-primary">Update Email</button>
-                <button class="btn btn-secondary btn-resend-verify-email"
-                    data-email-sent="{$LANG.action.Emailsent}" data-error-msg=" {$LANG.action.Emailerror}"
-                    data-uri="{routePath('user-email-verification-resend')}">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 0 0 4.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 0 1-15.357-2m15.357 2H15"/></svg>
-                    Resend Email
-                </button>
-            </div>
-        </form>
+<main class="ev-main">
+    <div class="ev-bg-shapes">
+        <div class="ev-shape ev-shape-1"></div>
+        <div class="ev-shape ev-shape-2"></div>
+        <div class="ev-shape ev-shape-3"></div>
     </div>
-</section>
+
+    {if $email_authentication_status}
+
+    <div class="ev-card">
+        <div class="ev-card-glow"></div>
+        <div class="ev-card-content">
+            <div class="ev-icon-ring">
+                <div class="ev-ring-pulse"></div>
+                <div class="ev-icon-box">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </div>
+            </div>
+            <h1 class="ev-title">Verify Your Email</h1>
+            <p class="ev-desc">Please confirm your email address to unlock all features and services.</p>
+            <div class="ev-ill u-mb-lg">
+                <svg class="ev-mail-svg" viewBox="0 0 200 140" fill="none">
+                    <rect x="10" y="20" width="180" height="120" rx="16" fill="url(#mail-grad)" opacity="0.15"/>
+                    <rect x="10" y="20" width="180" height="120" rx="16" stroke="url(#mail-grad)" stroke-width="2.5"/>
+                    <path d="M10 40L100 90L190 40" stroke="url(#mail-grad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="100" cy="80" r="3" fill="#667eea"/>
+                    <defs>
+                        <linearGradient id="mail-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#667eea"/>
+                            <stop offset="100%" stop-color="#764ba2"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <div class="ev-steps">
+                <div class="ev-step active">
+                    <div class="ev-step-num">1</div>
+                    <span>Confirm</span>
+                </div>
+                <div class="ev-step-line"></div>
+                <div class="ev-step">
+                    <div class="ev-step-num">2</div>
+                    <span>Verified</span>
+                </div>
+                <div class="ev-step-line"></div>
+                <div class="ev-step">
+                    <div class="ev-step-num">3</div>
+                    <span>Explore</span>
+                </div>
+            </div>
+            <div class="ev-alert">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <span>To change your email, enter a new address below and click <strong>Update Email</strong>.</span>
+            </div>
+            <form method="post" class="ev-form" action="">
+                <div class="ev-field">
+                    <label for="emailedit">Account Email</label>
+                    <div class="ev-input-wrap">
+                        <svg class="ev-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        <input required value="{$emailclient}" type="email" name="emailedit" id="emailedit" placeholder="you@example.com">
+                    </div>
+                </div>
+                <div class="ev-actions">
+                    <button type="submit" class="ev-btn ev-btn-primary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                        Update Email
+                    </button>
+                    <button type="button" class="ev-btn ev-btn-ghost btn-resend-verify-email"
+                        data-email-sent="{$LANG.action.Emailsent}" data-error-msg="{$LANG.action.Emailerror}"
+                        data-uri="{routePath('user-email-verification-resend')}">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                        Resend Email
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {else}
+
+    <div class="ev-card ev-success-card">
+        <div class="ev-card-glow"></div>
+        <div class="ev-card-content">
+            <div class="ev-success-check">
+                <svg viewBox="0 0 80 80" class="ev-check-svg">
+                    <circle cx="40" cy="40" r="36" fill="none" stroke="#059669" stroke-width="3" class="ev-check-circle"/>
+                    <path d="M24 40l10 10 22-22" fill="none" stroke="#059669" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" class="ev-check-path"/>
+                </svg>
+            </div>
+            <h1 class="ev-title ev-success-title">Email Verified!</h1>
+            <p class="ev-desc">Your email has been verified successfully. Welcome aboard!</p>
+            <div class="ev-ill u-mb-lg">
+                <svg class="ev-mail-svg" viewBox="0 0 200 140" fill="none">
+                    <rect x="10" y="20" width="180" height="120" rx="16" fill="#059669" opacity="0.08"/>
+                    <rect x="10" y="20" width="180" height="120" rx="16" stroke="#059669" stroke-width="2.5"/>
+                    <path d="M10 40L100 90L190 40" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="100" cy="80" r="3" fill="#059669"/>
+                </svg>
+            </div>
+            <div class="ev-steps">
+                <div class="ev-step done">
+                    <div class="ev-step-num">&#10003;</div>
+                    <span>Confirm</span>
+                </div>
+                <div class="ev-step-line done"></div>
+                <div class="ev-step active">
+                    <div class="ev-step-num">&#10003;</div>
+                    <span>Verified</span>
+                </div>
+                <div class="ev-step-line"></div>
+                <div class="ev-step">
+                    <div class="ev-step-num">3</div>
+                    <span>Explore</span>
+                </div>
+            </div>
+            <a class="ev-btn ev-btn-primary ev-btn-lg" href="{$WEB_ROOT}/clientarea.php">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                Go to Dashboard
+            </a>
+        </div>
+    </div>
+
+    {/if}
+</main>
 
 {else}
-
-<section class="verify-card">
-    <div class="verify-card-inner verify-success">
-        <div class="success-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-        </div>
-        <h1 class="verify-title" style="color: #059669;">Email Verified!</h1>
-        <p class="verify-subtitle">Your account email has been verified successfully</p>
-        <img class="verify-illustration" src="./modules/addons/Verifyemail/templates/img/Confrimed.svg" alt="confirmed">
-        <a class="btn btn-primary btn-dashboard" href="{$WEB_ROOT}/clientarea.php">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-            Dashboard
-        </a>
-    </div>
-</section>
-
-{/if}
-{else}
-<script>location.href = './index.php/login';</script>
+<script>location.href='./index.php/login';</script>
 {/if}
