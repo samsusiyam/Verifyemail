@@ -13,27 +13,19 @@ class outputemail
         $Emailauthentication = Capsule::table('mod_Verifyemail')->where('id', '1')->value('Emailauthentication');
         $Userauthentication = Capsule::table('mod_Verifyemail')->where('id', '1')->value('Userauthentication');
         $Deletedatabase = Capsule::table('mod_Verifyemail')->where('id', '1')->value('Deletedatabase');
-        $checked = $Emailauthentication == "on" ? "checked" : "";
-        $checked1 = $Userauthentication == "on" ? "checked" : "";
-        $checked2 = $Deletedatabase == "on" ? "checked" : "";
-        $badge1style = $Emailauthentication == "on" ? "background:#d1fae5;color:#059669" : "background:#f3f4f6;color:#9ca3af";
-        $badge1txt = $Emailauthentication == "on" ? "ON" : "OFF";
-        $badge2style = $Userauthentication == "on" ? "background:#d1fae5;color:#059669" : "background:#f3f4f6;color:#9ca3af";
-        $badge2txt = $Userauthentication == "on" ? "ON" : "OFF";
-        $badge3style = $Deletedatabase == "on" ? "background:#d1fae5;color:#059669" : "background:#f3f4f6;color:#9ca3af";
-        $badge3txt = $Deletedatabase == "on" ? "ON" : "OFF";
+        $on = $Emailauthentication == "on";
+        $on1 = $Userauthentication == "on";
+        $on2 = $Deletedatabase == "on";
 
         try {
             Capsule::connection()->transaction(
                 function ($connectionManager) {
                     if (isset($_POST['Emailauthentication'])) {
-                        $connectionManager->table('mod_Verifyemail')->update(
-                            [
-                                'Emailauthentication' => $_POST['Emailauthentication'],
-                                'Userauthentication' => $_POST['Userauthentication'],
-                                'Deletedatabase' => $_POST['Deletedatabase'],
-                            ]
-                        );
+                        $connectionManager->table('mod_Verifyemail')->update([
+                            'Emailauthentication' => $_POST['Emailauthentication'],
+                            'Userauthentication' => $_POST['Userauthentication'],
+                            'Deletedatabase' => $_POST['Deletedatabase'],
+                        ]);
                     }
                 }
             );
@@ -41,135 +33,143 @@ class outputemail
             echo "An error has occurred: {$e->getMessage()}";
         }
 
-        return <<<EOF
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="../modules/addons/Verifyemail/lib/template/css/style.css">
-        <style>body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif}</style>
+        $toggle1 = $on ? 'checked' : '';
+        $toggle2 = $on1 ? 'checked' : '';
+        $toggle3 = $on2 ? 'checked' : '';
+        $bg1 = $on ? '#7c3aed' : '#d1d5db';
+        $bg2 = $on1 ? '#7c3aed' : '#d1d5db';
+        $bg3 = $on2 ? '#7c3aed' : '#d1d5db';
+        $tx1 = $on ? 'translateX(18px)' : 'translateX(0)';
+        $tx2 = $on1 ? 'translateX(18px)' : 'translateX(0)';
+        $tx3 = $on2 ? 'translateX(18px)' : 'translateX(0)';
+        $badge = function($isOn) {
+            return $isOn
+                ? '<span style="background:#d1fae5;color:#059669;font-size:12px;font-weight:600;padding:3px 12px;border-radius:20px;display:inline-block;">ON</span>'
+                : '<span style="background:#f3f4f6;color:#9ca3af;font-size:12px;font-weight:600;padding:3px 12px;border-radius:20px;display:inline-block;">OFF</span>';
+        };
 
-        <div class="container-fluid px-0" style="font-size:15px;">
-            <div class="rounded-4 p-4 mb-4 text-white d-flex flex-wrap justify-content-between align-items-center gap-3" style="background:linear-gradient(135deg,#1e1b4b,#312e81);">
-                <div class="d-flex align-items-center gap-3">
-                    <div class="d-flex align-items-center justify-content-center" style="width:54px;height:54px;border-radius:14px;background:rgba(255,255,255,.12);">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M22 7l-10 7L2 7"/></svg>
+        return <<<EOF
+        <link rel="stylesheet" href="../modules/addons/Verifyemail/lib/template/css/style.css">
+
+        <div class="hnv-wrap" style="font-family:inherit;font-size:14px;line-height:1.5;color:#333;max-width:860px;">
+            <div style="background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:12px;padding:20px 24px;margin-bottom:18px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px;">
+                <div style="display:flex;align-items:center;gap:14px;">
+                    <div style="width:48px;height:48px;border-radius:12px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M22 7l-10 7L2 7"/></svg>
                     </div>
                     <div>
-                        <h1 class="fw-bold mb-0" style="font-size:22px;">Email Verification</h1>
-                        <p class="mb-0" style="font-size:14px;opacity:.75;">Manage your verification settings</p>
+                        <div style="font-size:20px;font-weight:700;color:#fff;line-height:1.2;">Email Verification</div>
+                        <div style="font-size:13px;color:rgba(255,255,255,.7);">Manage addon settings</div>
                     </div>
                 </div>
-                <a href="configgeneral.php?nocache=yc4opdjzyLEJ43Zn#tab=10" class="btn text-white d-inline-flex align-items-center gap-2 px-4 py-2" style="background:rgba(255,255,255,.12);border-radius:10px;font-size:14px;font-weight:600;border:1px solid rgba(255,255,255,.1);">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                <a href="configgeneral.php?nocache=yc4opdjzyLEJ43Zn#tab=10" style="display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:rgba(255,255,255,.12);border-radius:8px;color:#fff;text-decoration:none;font-size:13px;font-weight:600;border:1px solid rgba(255,255,255,.08);">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
                     General Settings
                 </a>
             </div>
 
-            <div class="d-flex align-items-start gap-2 p-3 rounded-3 mb-4" style="background:#fef3cd;border:1px solid #fcd34d;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" class="flex-shrink-0 mt-0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                <span style="font-size:14px;color:#92400e;">{$LANG['Warning']['dec-configgeneral']}</span>
+            <div style="display:flex;align-items:flex-start;gap:10px;background:#fef3cd;border:1px solid #fcd34d;border-radius:10px;padding:12px 16px;margin-bottom:18px;font-size:13px;color:#92400e;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <span>{$LANG['Warning']['dec-configgeneral']}</span>
             </div>
 
-            <ul class="nav nav-pills mb-4 gap-1" style="background:#f3f4f6;border-radius:12px;padding:4px;">
-                <li class="nav-item flex-fill">
-                    <a href="{$modulelink}&page=index" class="nav-link active text-center fw-semibold" style="border-radius:8px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-size:14px;">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="me-1"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                        {$LANG['menu']['setting-email-active']}
-                    </a>
-                </li>
-                <li class="nav-item flex-fill">
-                    <a href="{$modulelink}&page=about" class="nav-link text-center fw-semibold" style="border-radius:8px;color:#6b7280;font-size:14px;">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="me-1"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                        {$LANG['menu']['aboutanicoweb']}
-                    </a>
-                </li>
-            </ul>
+            <div style="display:flex;gap:4px;background:#f3f4f6;border-radius:10px;padding:4px;margin-bottom:20px;">
+                <a href="{$modulelink}&page=index" style="flex:1;text-align:center;padding:9px 14px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:600;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    {$LANG['menu']['setting-email-active']}
+                </a>
+                <a href="{$modulelink}&page=about" style="flex:1;text-align:center;padding:9px 14px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:600;color:#6b7280;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    {$LANG['menu']['aboutanicoweb']}
+                </a>
+            </div>
 
-            <div class="row g-3 mb-4">
-                <div class="col-md-4">
-                    <div class="d-flex align-items-center gap-3 p-3 rounded-3 bg-white" style="border:1px solid #f3f4f6;">
-                        <div class="d-flex align-items-center justify-content-center rounded-3" style="width:48px;height:48px;background:#f5f3ff;color:#7c3aed;">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                        </div>
-                        <div>
-                            <div class="fw-semibold" style="font-size:13px;color:#6b7280;letter-spacing:.04em;text-transform:uppercase;">Email Confirmation</div>
-                            <span class="badge rounded-pill d-inline-block mt-1 px-3 py-1" style="font-size:12px;{$badge1style}">{$badge1txt}</span>
-                        </div>
+            <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
+                <div style="flex:1;min-width:180px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:12px;">
+                    <div style="width:42px;height:42px;border-radius:10px;background:#f5f3ff;color:#7c3aed;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    </div>
+                    <div>
+                        <div style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em;">Email Confirmation</div>
+                        {$badge($on)}
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="d-flex align-items-center gap-3 p-3 rounded-3 bg-white" style="border:1px solid #f3f4f6;">
-                        <div class="d-flex align-items-center justify-content-center rounded-3" style="width:48px;height:48px;background:#eef2ff;color:#4f46e5;">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-                        </div>
-                        <div>
-                            <div class="fw-semibold" style="font-size:13px;color:#6b7280;letter-spacing:.04em;text-transform:uppercase;">Page Restriction</div>
-                            <span class="badge rounded-pill d-inline-block mt-1 px-3 py-1" style="font-size:12px;{$badge2style}">{$badge2txt}</span>
-                        </div>
+                <div style="flex:1;min-width:180px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:12px;">
+                    <div style="width:42px;height:42px;border-radius:10px;background:#eef2ff;color:#4f46e5;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                    </div>
+                    <div>
+                        <div style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em;">Page Restriction</div>
+                        {$badge($on1)}
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="d-flex align-items-center gap-3 p-3 rounded-3 bg-white" style="border:1px solid #f3f4f6;">
-                        <div class="d-flex align-items-center justify-content-center rounded-3" style="width:48px;height:48px;background:#fff1f2;color:#e11d48;">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                        </div>
-                        <div>
-                            <div class="fw-semibold" style="font-size:13px;color:#6b7280;letter-spacing:.04em;text-transform:uppercase;">DB Deletion</div>
-                            <span class="badge rounded-pill d-inline-block mt-1 px-3 py-1" style="font-size:12px;{$badge3style}">{$badge3txt}</span>
-                        </div>
+                <div style="flex:1;min-width:180px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:12px;">
+                    <div style="width:42px;height:42px;border-radius:10px;background:#fff1f2;color:#e11d48;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                    </div>
+                    <div>
+                        <div style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.04em;">DB Deletion</div>
+                        {$badge($on2)}
                     </div>
                 </div>
             </div>
 
-            <form action="#" method="post" class="bg-white rounded-3 p-4" style="border:1px solid #e5e7eb;">
-                <h6 class="fw-bold mb-3 d-flex align-items-center gap-2" style="font-size:16px;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667eea" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <form action="#" method="post" style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:20px 24px;">
+                <div style="font-size:15px;font-weight:700;color:#374151;margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#667eea" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
                     Module Settings
-                </h6>
+                </div>
 
-                <div class="d-flex flex-column gap-2">
-                    <label class="d-flex align-items-center justify-content-between p-3 rounded-3" style="border:1px solid #e5e7eb;cursor:pointer;">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="d-flex align-items-center justify-content-center rounded-2 fw-bold" style="width:40px;height:40px;background:#eef2ff;color:#4f46e5;font-size:18px;">@</div>
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                    <label style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border:1px solid #e5e7eb;border-radius:10px;cursor:pointer;gap:12px;">
+                        <div style="display:flex;align-items:center;gap:12px;">
+                            <span style="width:36px;height:36px;border-radius:8px;background:#eef2ff;color:#4f46e5;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0;">@</span>
                             <div>
-                                <div class="fw-semibold" style="font-size:15px;">{$LANG['setting']['Emailconfirmation']}</div>
-                                <div style="font-size:13px;color:#6b7280;">{$LANG['setting']['dec-confirmemail']}</div>
+                                <div style="font-size:14px;font-weight:600;color:#111827;">{$LANG['setting']['Emailconfirmation']}</div>
+                                <div style="font-size:12px;color:#6b7280;margin-top:1px;">{$LANG['setting']['dec-confirmemail']}</div>
                             </div>
                         </div>
-                        <div class="form-check form-switch mb-0">
-                            <input class="form-check-input" type="checkbox" {$checked} name="Emailauthentication" id="Emailauthentication" style="width:44px;height:24px;cursor:pointer;">
-                        </div>
+                        <label style="position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0;cursor:pointer;">
+                            <input type="checkbox" name="Emailauthentication" id="Emailauthentication" {$toggle1} style="opacity:0;width:0;height:0;">
+                            <span style="position:absolute;top:0;left:0;right:0;bottom:0;background:{$bg1};border-radius:22px;transition:.3s;"></span>
+                            <span style="position:absolute;content:'';height:18px;width:18px;left:2px;bottom:2px;background:#fff;border-radius:50%;transition:.3s;transform:{$tx1};box-shadow:0 1px 3px rgba(0,0,0,.15);"></span>
+                        </label>
                     </label>
 
-                    <label class="d-flex align-items-center justify-content-between p-3 rounded-3" style="border:1px solid #e5e7eb;cursor:pointer;">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="d-flex align-items-center justify-content-center rounded-2 fw-bold" style="width:40px;height:40px;background:#f5f3ff;color:#7c3aed;font-size:18px;">!</div>
+                    <label style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border:1px solid #e5e7eb;border-radius:10px;cursor:pointer;gap:12px;">
+                        <div style="display:flex;align-items:center;gap:12px;">
+                            <span style="width:36px;height:36px;border-radius:8px;background:#f5f3ff;color:#7c3aed;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0;">!</span>
                             <div>
-                                <div class="fw-semibold" style="font-size:15px;">{$LANG['setting']['Userauthentication']}</div>
-                                <div style="font-size:13px;color:#6b7280;">{$LANG['setting']['dec-Userauthentication']}</div>
+                                <div style="font-size:14px;font-weight:600;color:#111827;">{$LANG['setting']['Userauthentication']}</div>
+                                <div style="font-size:12px;color:#6b7280;margin-top:1px;">{$LANG['setting']['dec-Userauthentication']}</div>
                             </div>
                         </div>
-                        <div class="form-check form-switch mb-0">
-                            <input class="form-check-input" type="checkbox" {$checked1} name="Userauthentication" id="Userauthentication" style="width:44px;height:24px;cursor:pointer;">
-                        </div>
+                        <label style="position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0;cursor:pointer;">
+                            <input type="checkbox" name="Userauthentication" id="Userauthentication" {$toggle2} style="opacity:0;width:0;height:0;">
+                            <span style="position:absolute;top:0;left:0;right:0;bottom:0;background:{$bg2};border-radius:22px;transition:.3s;"></span>
+                            <span style="position:absolute;content:'';height:18px;width:18px;left:2px;bottom:2px;background:#fff;border-radius:50%;transition:.3s;transform:{$tx2};box-shadow:0 1px 3px rgba(0,0,0,.15);"></span>
+                        </label>
                     </label>
 
-                    <label class="d-flex align-items-center justify-content-between p-3 rounded-3" style="border:1px solid #e5e7eb;cursor:pointer;">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="d-flex align-items-center justify-content-center rounded-2 fw-bold" style="width:40px;height:40px;background:#fff1f2;color:#e11d48;font-size:18px;">&#10005;</div>
+                    <label style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border:1px solid #e5e7eb;border-radius:10px;cursor:pointer;gap:12px;">
+                        <div style="display:flex;align-items:center;gap:12px;">
+                            <span style="width:36px;height:36px;border-radius:8px;background:#fff1f2;color:#e11d48;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0;">&#10005;</span>
                             <div>
-                                <div class="fw-semibold" style="font-size:15px;">{$LANG['setting']["Deletedatabase"]}</div>
-                                <div style="font-size:13px;color:#6b7280;">{$LANG['setting']['dec-Deletedatabase']}</div>
+                                <div style="font-size:14px;font-weight:600;color:#111827;">{$LANG['setting']["Deletedatabase"]}</div>
+                                <div style="font-size:12px;color:#6b7280;margin-top:1px;">{$LANG['setting']['dec-Deletedatabase']}</div>
                             </div>
                         </div>
-                        <div class="form-check form-switch mb-0">
-                            <input class="form-check-input" type="checkbox" {$checked2} name="Deletedatabase" id="Deletedatabase" style="width:44px;height:24px;cursor:pointer;">
-                        </div>
+                        <label style="position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0;cursor:pointer;">
+                            <input type="checkbox" name="Deletedatabase" id="Deletedatabase" {$toggle3} style="opacity:0;width:0;height:0;">
+                            <span style="position:absolute;top:0;left:0;right:0;bottom:0;background:{$bg3};border-radius:22px;transition:.3s;"></span>
+                            <span style="position:absolute;content:'';height:18px;width:18px;left:2px;bottom:2px;background:#fff;border-radius:50%;transition:.3s;transform:{$tx3};box-shadow:0 1px 3px rgba(0,0,0,.15);"></span>
+                        </label>
                     </label>
                 </div>
 
-                <hr class="my-4">
-                <div class="d-flex justify-content-end">
-                    <button type="submit" class="btn text-white d-inline-flex align-items-center gap-2 px-4 py-2 fw-semibold" name="submit" style="background:linear-gradient(135deg,#667eea,#764ba2);border-radius:10px;border:none;font-size:15px;">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                <div style="border-top:1px solid #f3f4f6;margin-top:18px;padding-top:16px;display:flex;justify-content:flex-end;">
+                    <button type="submit" name="submit" style="display:inline-flex;align-items:center;gap:8px;padding:10px 26px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
                         {$LANG['setting']['savechanges']}
                     </button>
                 </div>
@@ -184,50 +184,44 @@ EOF;
         $modulelink = $vars['modulelink'];
 
         return <<<EOF
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="../modules/addons/Verifyemail/lib/template/css/style.css">
-        <style>body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif}</style>
 
-        <div class="container-fluid px-0" style="font-size:15px;">
-            <div class="rounded-4 p-4 mb-4 text-white" style="background:linear-gradient(135deg,#1e1b4b,#312e81);">
-                <div class="d-flex align-items-center gap-3">
-                    <div class="d-flex align-items-center justify-content-center" style="width:54px;height:54px;border-radius:14px;background:rgba(255,255,255,.12);">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <div class="hnv-wrap" style="font-family:inherit;font-size:14px;line-height:1.5;color:#333;max-width:860px;">
+            <div style="background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:12px;padding:20px 24px;margin-bottom:18px;">
+                <div style="display:flex;align-items:center;gap:14px;">
+                    <div style="width:48px;height:48px;border-radius:12px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                     </div>
                     <div>
-                        <h1 class="fw-bold mb-0" style="font-size:22px;">{$LANG['menu']['aboutanicoweb']}</h1>
-                        <p class="mb-0" style="font-size:14px;opacity:.75;">About this module</p>
+                        <div style="font-size:20px;font-weight:700;color:#fff;line-height:1.2;">{$LANG['menu']['aboutanicoweb']}</div>
+                        <div style="font-size:13px;color:rgba(255,255,255,.7);">About this module</div>
                     </div>
                 </div>
             </div>
 
-            <ul class="nav nav-pills mb-4 gap-1" style="background:#f3f4f6;border-radius:12px;padding:4px;">
-                <li class="nav-item flex-fill">
-                    <a href="{$modulelink}&page=index" class="nav-link text-center fw-semibold" style="border-radius:8px;color:#6b7280;font-size:14px;">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="me-1"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                        {$LANG['menu']['setting-email-active']}
-                    </a>
-                </li>
-                <li class="nav-item flex-fill">
-                    <a href="{$modulelink}&page=about" class="nav-link active text-center fw-semibold" style="border-radius:8px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-size:14px;">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="me-1"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                        {$LANG['menu']['aboutanicoweb']}
-                    </a>
-                </li>
-            </ul>
+            <div style="display:flex;gap:4px;background:#f3f4f6;border-radius:10px;padding:4px;margin-bottom:20px;">
+                <a href="{$modulelink}&page=index" style="flex:1;text-align:center;padding:9px 14px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:600;color:#6b7280;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    {$LANG['menu']['setting-email-active']}
+                </a>
+                <a href="{$modulelink}&page=about" style="flex:1;text-align:center;padding:9px 14px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:600;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    {$LANG['menu']['aboutanicoweb']}
+                </a>
+            </div>
 
-            <div class="bg-white rounded-3 p-4 text-center" style="border:1px solid #e5e7eb;">
-                <div class="d-flex align-items-center justify-content-center mb-3">
-                    <div class="d-flex align-items-center justify-content-center" style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);">
-                        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px 24px;text-align:center;">
+                <div style="display:flex;justify-content:center;margin-bottom:16px;">
+                    <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;">
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                     </div>
                 </div>
-                <p class="mb-0" style="font-size:15px;line-height:1.8;color:#374151;max-width:600px;margin:0 auto;white-space:pre-line;">{$LANG['about']['Description']}</p>
-                <hr class="my-4">
-                <div class="d-flex justify-content-center gap-3 flex-wrap">
-                    <span class="badge rounded-pill px-3 py-2" style="background:#eef2ff;color:#4f46e5;font-size:13px;">Version 1.0</span>
-                    <span class="badge rounded-pill px-3 py-2" style="background:#f5f3ff;color:#7c3aed;font-size:13px;">WHMCS Module</span>
-                    <span class="badge rounded-pill px-3 py-2" style="background:#ecfdf5;color:#059669;font-size:13px;">Email Verification</span>
+                <p style="font-size:15px;line-height:1.8;color:#374151;max-width:600px;margin:0 auto;white-space:pre-line;">{$LANG['about']['Description']}</p>
+                <hr style="border:0;border-top:1px solid #f3f4f6;margin:20px 0;">
+                <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;">
+                    <span style="background:#eef2ff;color:#4f46e5;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;display:inline-block;">Version 1.0</span>
+                    <span style="background:#f5f3ff;color:#7c3aed;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;display:inline-block;">WHMCS Module</span>
+                    <span style="background:#ecfdf5;color:#059669;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;display:inline-block;">Email Verification</span>
                 </div>
             </div>
         </div>
